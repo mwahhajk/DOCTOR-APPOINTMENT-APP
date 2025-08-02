@@ -1,0 +1,50 @@
+import { catchAsyncErrors } from "../middleware/catchAsyncError.js";
+import ErrorHandler from "../middleware/error.js";
+import { User } from "../models/userSchema.js";
+
+export const createAppintment=catchAsyncErrors(async(req,res,next)=>{
+    console.log("From create appiontment");
+    const{firstName,lastName,email,phone,password,nic,dob,gender,appointment_date,department,doctor_firstname,doctor_lastname,hasVisited,address}=req.body
+    
+    if(!firstName||!lastName||!email||!phone||!password||!nic||!dob||!gender||!appointment_date||!department||!doctor_firstname||!doctor_lastname||!hasVisited||!address)
+    {
+        return next(new ErrorHandler("Please provide all required fields for appointment",400))
+    }
+
+    const doctorConflict=await User.find({
+        firstName:doctor_firstname,
+        lastName:doctor_lastname,
+        doctorDepartment:department,
+        role:"Doctor"
+
+    })
+    if(doctorConflict.length===0)
+    {
+        return next(new ErrorHandler("No Docotor Found",400))
+    }
+    else if(doctorConflict.length>1)
+    {
+        return next(new ErrorHandler("Doctor data is conflicted, book your appointment via email or phone call",400))
+    }
+    const doctorId=doctorConflict[0]._id;
+    console.log(doctorId);
+    return res.json({message:"ID"})
+    
+})
+
+export const getAllAppintment=catchAsyncErrors(async(req,res,next)=>{
+    console.log("From get all appiontment");
+    
+})
+
+export const deleteAppintment=catchAsyncErrors(async(req,res,next)=>{
+    console.log("From delete appiontment");
+    
+})
+
+export const updateAppintment=catchAsyncErrors(async(req,res,next)=>{
+    console.log("From update appiontment");
+    
+})
+
+
