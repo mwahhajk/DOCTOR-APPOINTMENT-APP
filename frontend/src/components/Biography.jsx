@@ -1,8 +1,15 @@
 import React from 'react'
 
-function Biography() {
+function Biography({imageUrl}) {
   return (
-    <div>Biography</div>
+    <div className='container biography'>
+      <div className="banner">
+        <img src={imageUrl} alt="who we are" srcset="" />
+      </div>
+      <div className="banner">
+        
+      </div>
+    </div>
   )
 }
 
