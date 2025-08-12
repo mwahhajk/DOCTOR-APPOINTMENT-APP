@@ -57,10 +57,62 @@ h6 {
   font-weight: 700;
 }
 
+.container {
+  padding: 0 100px;
+}
+
 .hero{
   display: flex;
   padding-bottom: 120px;
   padding-top: 120px;
   gap: 50px;
-  position: relative;
+  /* position: relative; */
+}
+
+.hero .banner h1,
+.hero .banner p {
+  max-width: 650px;
+}
+
+.hero .banner {
+  flex: 1;
+}
+
+.hero .banner h1 {
+  letter-spacing: 2px;
+  word-spacing: 5px;
+  font-size: 40px;
+}
+
+.hero .banner p {
+  color: #111;
+  letter-spacing: 2px;
+}
+
+.hero .banner:first-child {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* gap: 50px; */
+}
+
+.hero .banner:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: hidden;
+} 
+
+.animated-image {
+  animation: moveUpDown 1s infinite alternate ease-in-out;
+}
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(20px);
+  }
+
 }
