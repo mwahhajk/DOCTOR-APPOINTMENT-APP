@@ -6,7 +6,7 @@ function Home() {
   return (
     <div>
       <Hero title={"Welcome to Our Website"} imageUrl={"/hero.png"}/>
-      {/* <Biography imageUrl={"/about.png"}/> */}
+      <Biography imageUrl={"/about.png"}/>
       {/* <Departments/>
       <MessageForm/> */}
     </div>

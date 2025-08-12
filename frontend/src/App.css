@@ -116,3 +116,31 @@ h6 {
   }
 
 }
+
+
+
+/* =========================          Biography Sectio         =============================== */
+.biography{
+  display: flex;
+  gap: 60px;
+    padding-top: 40px;
+  padding-bottom: 60px;
+  /* flex: 1; */
+}
+
+.biography .banner{
+  max-width: 650px;
+}
+
+.bio-text{
+  padding-top: 80px;
+}
+
+.biography .banner h3 {
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+.biography .banner p:first-child {
+  font-size: 24px;
+  letter-spacing: 2px;
+}
