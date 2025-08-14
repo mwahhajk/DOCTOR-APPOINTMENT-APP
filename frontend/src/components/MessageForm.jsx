@@ -1,8 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function MessageForm() {
+  const[firstName,setFirstName]=useState("");
+  const[lastName,setLastName]=useState("");
+  const[email,setEmail]=useState("");
+  const[phone,setPhone]=useState("");
+  const[message,setMessage]=useState("")
   return (
-    <div>MessageForm</div>
+    <div className='container form-component message-form'>
+      <h2>Send Us A Message</h2>
+      <form>
+      <div>
+        <input type="text" name="firstName" placeholder='Enter First Name' value={firstName} onChange={(e)=>{setFirstName(e.target.value)}}/>
+        <input type="text" name="lastName" placeholder='Enter Last Name' value={lastName} onChange={(e)=>{setLastName(e.target.value)}}/>        
+      </div>
+      <div>
+        <input type="email" name="email" placeholder='Enter Email' value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
+        <input type="text" name="phone" placeholder='Enter Phone Number' value={phone} onChange={(e)=>{setPhone(e.target.value)}}/>        
+      </div>
+      <textarea             
+            rows={7}
+            placeholder="Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}>
+
+      </textarea>
+          <div style={{ justifyContent: "center", alignItems: "center" }}>
+            <button type="submit">Send</button>
+          </div>
+        </form>
+    </div>
   )
 }
 
