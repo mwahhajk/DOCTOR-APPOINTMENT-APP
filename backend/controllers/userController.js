@@ -85,6 +85,8 @@ export const addNewAdmin=catchAsyncErrors(async (req,res,next)=>{
 })
 
 export const addNewDoctor=catchAsyncErrors(async(req,res,next)=>{
+  // console.log(req.files);
+  
     if(!req.files || Object.keys(req.files).length===0)
     {
         return next(new ErrorHandler("Picture required ... ",400))
@@ -93,7 +95,10 @@ export const addNewDoctor=catchAsyncErrors(async(req,res,next)=>{
 
     const{docAvatar}=req.files;
 
-    if(!allowedFormats.includes(docAvatar.mimeType))
+    console.log(docAvatar);
+    
+
+    if(!allowedFormats.includes(docAvatar.mimetype))
     {
         return next(new ErrorHandler("Please provide image in valid format",400))
     }
@@ -124,13 +129,13 @@ export const addNewDoctor=catchAsyncErrors(async(req,res,next)=>{
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
   const isRegisterd=await User.findOne({email});
-  if(!isRegisterd)
+  if(isRegisterd)
   {
     return next(new ErrorHandler("Doctor already registered",400))
   }
-  const cloudinaryResponse=cloudinary.uploader.upload({
-    docAvatar:temFilePath
-  })
+  const cloudinaryResponse=cloudinary.uploader.upload(
+    docAvatar.temFilePath
+  )
     if (!cloudinaryResponse || cloudinaryResponse.error) {
     console.error(
       "Cloudinary Error:",
@@ -148,6 +153,7 @@ export const addNewDoctor=catchAsyncErrors(async(req,res,next)=>{
     nic,
     dob ,
     gender,
+    role:"Doctor",
     password, 
     doctorDepartment ,
     docAvatar:{
@@ -165,15 +171,23 @@ export const addNewDoctor=catchAsyncErrors(async(req,res,next)=>{
 })
 
 export const getAllDoctors=catchAsyncErrors(async(req,res,next)=>{
-    const allDoctors=await User.find({role:'Admin'})
+    const allDoctors=await User.find({role:'Doctor'})
     return res.status(200).json({
         success:true,
         doctors:allDoctors
     })
 })
 
+export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = req.user;
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
 export const logoutPatient=catchAsyncErrors(async(req,res,next)=>{
-    res.cookie(patientToken,"",{
+    res.cookie("patientToken","",{
         expires:new Date(Date.now())
 
     }).json({
