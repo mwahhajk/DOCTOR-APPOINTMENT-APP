@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import validator, { isMongoId } from "validator"
+import validator from "validator"
 
 const appointmentSchema=new mongoose.Schema({
       firstName: {
@@ -15,7 +15,7 @@ const appointmentSchema=new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email Is Required!"],
-    validate: [validator.isEmail, "Provide A Valid Email!"],
+    // validate: [validator.isEmail, "Provide A Valid Email!"],
   },
   phone: {
     type: String,
@@ -35,12 +35,12 @@ const appointmentSchema=new mongoose.Schema({
   },
   gender:{
     type:String,
-    require:[true,"Gender is required"],
+    required:[true,"Gender is required"],
     enum:["Male","Female","Others"]
   },
   appointment_date:{
     type:String,
-    require:[true,"Appointment Date is required"]
+    required:[true,"Appointment Date is required"]
   },
   department:{
     type:String,
@@ -69,8 +69,8 @@ const appointmentSchema=new mongoose.Schema({
     required:true
   },
   patientId:{
-    type:mongoose.Schema,ObjectId,
-    require:true,
+    type:mongoose.Schema.ObjectId,
+    required:true,
     ref:"User"
   },
   status:{

@@ -1,12 +1,13 @@
 import { catchAsyncErrors } from "../middleware/catchAsyncError.js";
 import ErrorHandler from "../middleware/error.js";
 import { User } from "../models/userSchema.js";
+import {Appointment} from "../models/appointmentSchema.js"
 
 export const createAppintment=catchAsyncErrors(async(req,res,next)=>{
     console.log("From create appiontment");
     const{firstName,lastName,email,phone,password,nic,dob,gender,appointment_date,department,doctor_firstname,doctor_lastname,hasVisited,address}=req.body
     
-    if(!firstName||!lastName||!email||!phone||!password||!nic||!dob||!gender||!appointment_date||!department||!doctor_firstname||!doctor_lastname||!hasVisited||!address)
+    if(!firstName||!lastName||!email||!phone||!nic||!dob||!gender||!appointment_date||!department||!doctor_firstname||!doctor_lastname||!address)
     {
         return next(new ErrorHandler("Please provide all required fields for appointment",400))
     }
@@ -27,8 +28,33 @@ export const createAppintment=catchAsyncErrors(async(req,res,next)=>{
         return next(new ErrorHandler("Doctor data is conflicted, book your appointment via email or phone call",400))
     }
     const doctorId=doctorConflict[0]._id;
-    console.log(doctorId);
-    return res.json({message:"ID"})
+    // console.log(doctorId);
+    // return res.json({message:"ID"})
+    const patientId = req.user._id;
+  const appointment = await Appointment.create({
+    firstName,
+    lastName,
+    email,
+    phone,
+    nic,
+    dob,
+    gender,
+    appointment_date,
+    department,
+    doctor: {
+      firstName: doctor_firstname,
+      lastName: doctor_lastname,
+    },
+    hasVisited,
+    address,
+    doctorId,
+    patientId,
+  });
+  res.status(200).json({
+    success: true,
+    appointment,
+    message: "Appointment Send!",
+  });
     
 })
 
