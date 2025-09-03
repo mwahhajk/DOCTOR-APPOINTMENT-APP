@@ -60,16 +60,46 @@ export const createAppintment=catchAsyncErrors(async(req,res,next)=>{
 
 export const getAllAppintment=catchAsyncErrors(async(req,res,next)=>{
     console.log("From get all appiontment");
+    const appointments = await Appointment.find();
+    res.status(200).json({
+    success: true,
+    appointments,
+  });
     
 })
 
 export const deleteAppintment=catchAsyncErrors(async(req,res,next)=>{
     console.log("From delete appiontment");
+  const { id } = req.params;
+  const appointment = await Appointment.findById(id);
+  if (!appointment) {
+    return next(new ErrorHandler("Appointment Not Found!", 404));
+  }
+  await appointment.deleteOne();
+  res.status(200).json({
+    success: true,
+    message: "Appointment Deleted!",
+  });
     
 })
 
 export const updateAppintment=catchAsyncErrors(async(req,res,next)=>{
     console.log("From update appiontment");
+    const { id } = req.params;
+    let appointment = await Appointment.findById(id);
+    if (!appointment) {
+      return next(new ErrorHandler("Appointment not found!", 404));
+    }
+    appointment = await Appointment.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Appointment Status Updated!",
+    });
+  
     
 })
 
